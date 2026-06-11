@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Minimarket Rosita</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body class="panel-page">
+    <div class="panel-shell">
+        <header class="topbar">
+            <div class="topbar-brand">
+                <div class="brand-mark brand-mark--panel" aria-hidden="true">MR</div>
+                <div>
+                    <span class="topbar-kicker">Sistema comercial</span>
+                    <strong>Minimarket Rosita</strong>
+                </div>
+            </div>
+
+            <nav class="topbar-nav" aria-label="Navegación principal">
+                <button class="nav-link is-active" type="button" data-view="inicio">Inicio</button>
+                <button class="nav-link" type="button" data-view="inventario">Inventario</button>
+                <button class="nav-link" type="button" data-view="ventas">Ventas</button>
+                <button class="nav-link" type="button" data-view="boletas">Boletas</button>
+                <button class="nav-link" type="button" data-view="estadisticas">Estadísticas</button>
+                <button class="nav-link" type="button" data-view="informacion">Información</button>
+                <button class="nav-link" type="button" data-view="catalogo">Catálogo</button>
+                <button class="nav-link" type="button" data-view="historial">Historial</button>
+            </nav>
+
+            <div class="topbar-actions">
+                <button class="theme-toggle" type="button" id="themeToggleButton" title="Cambiar tema">☀️</button>
+                <span class="status-pill">Administrador activo</span>
+                <a class="topbar-exit" href="loginadmin.html">Salir</a>
+            </div>
+        </header>
+
+        <main class="dashboard-app" aria-label="Panel de administración">
+            <section class="screen is-active" id="view-inicio" data-view-panel="inicio">
+                <article class="hero-card">
+                    <div class="hero-copy">
+                        <p class="eyebrow">Inicio / control central</p>
+                        <h1>Gestiona inventario, ventas y trazabilidad desde una sola pantalla.</h1>
+                        <p class="hero-text">Registra productos, crea ventas a partir del inventario y revisa cada movimiento con una interfaz clara, visual y preparada para uso diario.</p>
+
+                        <div class="hero-actions">
+                            <button class="primary-action" type="button" data-jump="inventario">Registrar inventario</button>
+                            <button class="secondary-action" type="button" data-jump="ventas">Registrar venta</button>
+                        </div>
+
+                        <div class="hero-highlights" aria-label="Resumen rápido">
+                            <article>
+                                <strong id="metricProducts">0</strong>
+                                <span>Productos</span>
+                            </article>
+                            <article>
+                                <strong id="metricStock">0</strong>
+                                <span>Unidades</span>
+                            </article>
+                            <article>
+                                <strong id="metricSales">0</strong>
+                                <span>Ventas</span>
+                            </article>
+                            <article>
+                                <strong id="metricRevenue">$0</strong>
+                                <span>Ingresos</span>
+                            </article>
+                        </div>
+
+                        <div class="dashboard-metrics" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 18px;">
+                            <article style="padding: 16px; border-radius: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                <span style="display: block; font-size: 0.78rem; text-transform: uppercase; color: #fde68a; margin-bottom: 6px; letter-spacing: 0.08em;">Ventas hoy</span>
+                                <strong id="metricTodaySales" style="display: block; font-size: 1.3rem;">0</strong>
+                            </article>
+                            <article style="padding: 16px; border-radius: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                <span style="display: block; font-size: 0.78rem; text-transform: uppercase; color: #fde68a; margin-bottom: 6px; letter-spacing: 0.08em;">Ticket promedio</span>
+                                <strong id="metricAverageTicket" style="display: block; font-size: 1.3rem;">S/ 0.00</strong>
+                            </article>
+                            <article style="padding: 16px; border-radius: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                <span style="display: block; font-size: 0.78rem; text-transform: uppercase; color: #fde68a; margin-bottom: 6px; letter-spacing: 0.08em;">Producto TOP</span>
+                                <strong id="metricTopProduct" style="display: block; font-size: 0.95rem; word-break: break-word;">-</strong>
+                            </article>
+                            <article style="padding: 16px; border-radius: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                <span style="display: block; font-size: 0.78rem; text-transform: uppercase; color: #fde68a; margin-bottom: 6px; letter-spacing: 0.08em;">Bajo stock</span>
+                                <strong id="metricLowStock" style="display: block; font-size: 1.3rem;">0</strong>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="hero-visual">
+                        <div class="hero-image-card">
+                            <div class="hero-image-overlay"></div>
+                            <div class="hero-image-copy">
+                                <p>Centro de operaciones</p>
+                                <h2>Inventario y ventas en tiempo real</h2>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <span>Vista general</span>
+                            <strong id="insightHeadline">Listo para administrar tu negocio</strong>
+                            <p id="insightCopy">Empieza agregando productos para activar el módulo de ventas.</p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="screen" id="view-inventario" data-view-panel="inventario" hidden>
+                <div class="section-head">
+                    <div>
+                        <p class="eyebrow">Inventario</p>
+                        <h2>Registro de inventario</h2>
+                    </div>
+                    <p>Alta, baja, edición, listado y búsqueda de productos con stock, precio y categoría.</p>
+                </div>
+
+                <div class="module-grid">
+                    <form class="card form-card" id="inventoryForm">
+                        <div class="card-title">
+                            <h3 id="inventoryFormTitle">Nuevo producto</h3>
+                            <span id="inventoryFormMode">Alta</span>
+                        </div>
+
+                        <label for="inventoryId">ID</label>
+                        <input id="inventoryId" name="inventoryId" type="text" placeholder="Ej. PRD-001" required>
+
+                        <label for="inventoryName">Nombre</label>
+                        <input id="inventoryName" name="inventoryName" type="text" placeholder="Ej. Laptop empresarial" required>
+
+                        <label for="inventoryStock">Stock</label>
+                        <input id="inventoryStock" name="inventoryStock" type="number" min="0" step="1" placeholder="0" required>
+
+                        <label for="inventoryPrice">Precio</label>
+                        <input id="inventoryPrice" name="inventoryPrice" type="number" min="0" step="0.01" placeholder="0.00" required>
+
+                        <label for="inventoryCategory">Categoría</label>
+                        <input id="inventoryCategory" name="inventoryCategory" type="text" placeholder="Ej. Tecnología" required>
+
+                        <label for="fecha_vencimiento">Fecha de vencimiento</label>
+                        <input id="fecha_vencimiento" name="fecha_vencimiento" type="date">
+
+                        <label for="inventoryImageUrl">URL de imagen (web)</label>
+                        <input id="inventoryImageUrl" name="inventoryImageUrl" type="url" placeholder="https://sitio.com/imagen.jpg">
+
+                        <label for="inventoryImage">Imagen local (opcional)</label>
+                        <input id="inventoryImage" name="inventoryImage" type="file" accept="image/*">
+                        <img id="inventoryImagePreview" class="inventory-image-preview" alt="Vista previa de la imagen" hidden>
+                        <button class="secondary-action" type="button" id="inventoryClearImageButton">Quitar imagen</button>
+
+                        <div class="form-actions">
+                            <button class="primary-action" type="submit">Guardar inventario</button>
+                            <button class="secondary-action" type="button" id="inventoryCancelButton" hidden>Cancelar edición</button>
+                        </div>
+
+                        <p class="form-feedback" id="inventoryFeedback" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <div class="card table-card">
+                        <div class="card-title">
+                            <h3>Tabla de inventario</h3>
+                            <span id="inventoryCountLabel">0 registros</span>
+                        </div>
+
+                        <div class="table-toolbar">
+                            <input id="inventorySearch" class="search-input" type="search" placeholder="Buscar por ID, nombre, categoría o precio">
+                        </div>
+
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Stock</th>
+                                        <th>Precio</th>
+                                        <th>Categoría</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventoryTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="screen" id="view-ventas" data-view-panel="ventas" hidden>
+                <div class="section-head">
+                    <div>
+                        <p class="eyebrow">Ventas</p>
+                        <h2>Registro de ventas</h2>
+                    </div>
+                    <p>Selecciona un producto registrado en inventario, define fecha, cantidad, método de pago e IGV.</p>
+                </div>
+
+                <div class="module-grid">
+                    <form class="card form-card" id="salesForm">
+                        <div class="card-title">
+                            <h3 id="salesFormTitle">Nueva venta</h3>
+                            <span id="salesFormMode">Alta</span>
+                        </div>
+
+                        <label for="saleId">ID de venta</label>
+                        <input id="saleId" name="saleId" type="text" placeholder="Ej. VTA-001" required>
+
+                        <label for="saleProductId">Nombre del producto</label>
+                        <select id="saleProductId" name="saleProductId" required></select>
+
+                        <label for="saleDate">Fecha de venta</label>
+                        <input id="saleDate" name="saleDate" type="datetime-local" required>
+
+                        <label for="saleQuantity">Cantidad de unidades</label>
+                        <input id="saleQuantity" name="saleQuantity" type="number" min="1" step="1" value="1" required>
+
+                        <label for="salePaymentMethod">Método de pago</label>
+                        <select id="salePaymentMethod" name="salePaymentMethod" required>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="Yape/Plin">Yape/Plin</option>
+                        </select>
+
+                        <label for="saleIgv">IGV (%)</label>
+                        <input id="saleIgv" name="saleIgv" type="number" min="0" step="0.01" value="18" required>
+
+                        <div class="sale-summary" aria-live="polite">
+                            <span>Resumen de venta</span>
+                            <strong id="saleTotalPreview">S/ 0.00</strong>
+                            <p id="saleSummaryPreview">Selecciona un producto para ver el stock y el cálculo.</p>
+                            <div class="sale-mini-grid">
+                                <div><span>Precio unitario</span><strong id="saleUnitPricePreview">S/ 0.00</strong></div>
+                                <div><span>Subtotal</span><strong id="saleSubtotalPreview">S/ 0.00</strong></div>
+                                <div><span>IGV</span><strong id="saleIgvAmountPreview">S/ 0.00</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="primary-action" type="submit">Guardar venta</button>
+                            <button class="secondary-action" type="button" id="salesCancelButton" hidden>Cancelar edición</button>
+                        </div>
+
+                        <p class="form-feedback" id="salesFeedback" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <div class="card table-card">
+                        <div class="card-title">
+                            <h3>Tabla de ventas</h3>
+                            <span id="salesCountLabel">0 registros</span>
+                        </div>
+
+                        <div class="history-filter-bar" aria-label="Filtros de ventas" style="margin-bottom:12px;">
+                            <div class="filter-group">
+                                <label for="salesDateFrom">Desde</label>
+                                <input id="salesDateFrom" class="search-input" type="date" aria-label="Fecha inicio">
+                            </div>
+                            <div class="filter-group">
+                                <label for="salesDateTo">Hasta</label>
+                                <input id="salesDateTo" class="search-input" type="date" aria-label="Fecha fin">
+                            </div>
+                            <div class="row-actions">
+                                <button class="action-button" id="salesApplyRangeButton" type="button">Actualizar</button>
+                            </div>
+                        </div>
+
+                        <div class="table-toolbar">
+                            <input id="salesSearch" class="search-input" type="search" placeholder="Buscar por ID, producto, pago, fecha o IGV">
+                        </div>
+
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID de venta</th>
+                                        <th>Producto</th>
+                                        <th>Fecha</th>
+                                        <th>Cantidad</th>
+                                        <th>Método</th>
+                                        <th>IGV (S/)</th>
+                                        <th>Total</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="salesTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="screen" id="view-informacion" data-view-panel="informacion" hidden>
+                <div class="section-head">
+                    <div>
+                        <p class="eyebrow">Información</p>
+                        <h2>Descripción general</h2>
+                    </div>
+                    <p>Comparte datos de tu negocio para que el cliente conozca ubicación, mapa y canal de contacto.</p>
+                </div>
+
+                <div class="info-layout">
+                    <article class="card table-card">
+                        <div class="card-title">
+                            <h3 id="storeTitleDisplay">Mi tienda</h3>
+                            <span>Vista cliente</span>
+                        </div>
+                        <p class="hero-text" id="storeDescriptionDisplay">Configura una descripción breve para tu página.</p>
+
+                        <h4 class="info-subtitle">Ubicación</h4>
+                        <ul class="location-list" id="storeLocationsList"></ul>
+
+                        <div class="row-actions">
+                            <a class="action-button" id="storeMapLink" href="#" target="_blank" rel="noopener noreferrer">Ver mapa</a>
+                            <a class="action-button" id="storeWhatsAppLink" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                        </div>
+
+                        <iframe id="storeMapFrame" class="store-map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de la tienda"></iframe>
+                    </article>
+
+                    <form class="card form-card" id="storeProfileForm">
+                        <div class="card-title">
+                            <h3>Configuración de tienda</h3>
+                            <span>Administrador</span>
+                        </div>
+
+                        <label for="storeNameInput">Nombre comercial</label>
+                        <input id="storeNameInput" type="text" placeholder="Ej. Hospedaje Romance" required>
+
+                        <label for="storeDescriptionInput">Descripción general</label>
+                        <textarea id="storeDescriptionInput" placeholder="Describe en pocas líneas el servicio principal." required></textarea>
+
+                        <label for="storeMapEmbedInput">URL para mapa embebido (Google Maps)</label>
+                        <input id="storeMapEmbedInput" type="url" placeholder="https://www.google.com/maps/embed?..." required>
+
+                        <label for="storeMapLinkInput">URL de mapa para abrir en nueva pestaña</label>
+                        <input id="storeMapLinkInput" type="url" placeholder="https://maps.app.goo.gl/..." required>
+
+                        <label for="storeWhatsAppInput">Número WhatsApp (con código país)</label>
+                        <input id="storeWhatsAppInput" type="text" placeholder="51999999999" required>
+
+                        <label for="storeLocationsInput">Lista de ubicaciones (una por línea)</label>
+                        <textarea id="storeLocationsInput" placeholder="Satipo, Junín&#10;Av. Principal 123"></textarea>
+
+                        <div class="form-actions">
+                            <button class="primary-action" type="submit">Guardar información</button>
+                        </div>
+                        <p class="form-feedback" id="storeProfileFeedback" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+            </section>
+
+            <section class="screen" id="view-boletas" data-view-panel="boletas" hidden>
+                <div class="section-head">
+                    <div>
+                        <p class="eyebrow">Boletas electrónicas</p>
+                        <h2>Emisión Nivel A</h2>
+                    </div>
+                    <p>Genera boletas desde ventas registradas con representación PDF y archivo JSON compatible para flujo SUNAT-like.</p>
+                </div>
+
+                <div class="module-grid">
+                    <form class="card form-card" id="receiptForm" onsubmit="return false;">
+                        <div class="card-title">
+                            <h3>Nuevo documento</h3>
+                            <span>Nivel A</span>
+                        </div>
+
+                        <label for="receiptDocType">Tipo de documento</label>
+                        <select id="receiptDocType">
+                            <option value="Boleta">Boleta</option>
+                            <option value="Factura">Factura</option>
+                        </select>
+
+                        <label for="receiptSerie">Serie</label>
+                        <input id="receiptSerie" type="text" placeholder="B001" maxlength="4">
+
+                        <label for="receiptCorrelative">Correlativo</label>
+                        <input id="receiptCorrelative" type="text" placeholder="00000001" maxlength="8">
+
+                        <label for="receiptSeller">Vendedor</label>
+                        <input id="receiptSeller" type="text" placeholder="Nombre del vendedor">
+
+                        <label for="receiptIssuerRuc">RUC emisor</label>
+                        <input id="receiptIssuerRuc" type="text" placeholder="Ej. 10411336234" maxlength="11">
+
+                        <label for="receiptIssuerName">Razón social emisor</label>
+                        <input id="receiptIssuerName" type="text" placeholder="Ej. OBREGON CABRERA EULOGIO">
+
+                        <label for="receiptIssuerAddress">Dirección fiscal</label>
+                        <input id="receiptIssuerAddress" type="text" placeholder="Ej. AMAZONAS - CHACHAPOYAS - CHACHAPOYAS">
+
+                        <label for="receiptClientDocType">Tipo doc. cliente</label>
+                        <select id="receiptClientDocType">
+                            <option value="0">Sin documento</option>
+                            <option value="1">DNI</option>
+                            <option value="6">RUC</option>
+                            <option value="4">CE</option>
+                        </select>
+
+                        <label for="receiptClientDocNumber">Núm. documento</label>
+                        <input id="receiptClientDocNumber" type="text" placeholder="Ej. 12345678">
+
+                        <label for="receiptClientName">Cliente</label>
+                        <input id="receiptClientName" type="text" placeholder="Nombre o razón social">
+
+                        <label for="receiptPaymentMethod">Forma de pago</label>
+                        <select id="receiptPaymentMethod">
+                            <option value="Contado">Contado</option>
+                            <option value="Yape/Plin">Yape/Plin</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
+                        </select>
+
+                        <div class="sale-mini-grid receipt-summary-grid" aria-live="polite">
+                            <div><span>Ítems</span><strong id="receiptItemsCount">0</strong></div>
+                            <div><span>Subtotal</span><strong id="receiptSubtotal">S/ 0.00</strong></div>
+                            <div><span>IGV</span><strong id="receiptIgv">S/ 0.00</strong></div>
+                            <div><span>Total</span><strong id="receiptTotal">S/ 0.00</strong></div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="secondary-action" type="button" id="receiptSaveDraftButton">Guardar borrador</button>
+                            <button class="primary-action" type="button" id="receiptEmitButton">Emitir boleta electrónica</button>
+                            <button class="secondary-action" type="button" id="receiptEmitPaymentButton">Emitir boleta de pago</button>
+                            <button class="secondary-action" type="button" id="receiptEmitTicketButton">Emitir boleta ticket</button>
+                            <button class="secondary-action" type="button" id="receiptClearDraftButton">Limpiar detalle</button>
+                        </div>
+
+                        <p class="form-feedback" id="receiptFeedback" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <div class="card table-card">
+                        <div class="card-title">
+                            <h3>Ventas disponibles</h3>
+                            <span id="receiptSalesCountLabel">0 ventas</span>
+                        </div>
+
+                        <div class="table-toolbar">
+                            <input id="receiptSalesSearch" class="search-input" type="search" placeholder="Buscar por ID, producto, fecha o método">
+                        </div>
+
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID venta</th>
+                                        <th>Producto</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="receiptSalesTableBody"></tbody>
+                            </table>
+                        </div>
+
+                        <hr class="panel-divider">
+
+                        <div class="card-title">
+                            <h3>Detalle de boleta</h3>
+                            <span id="receiptDraftCountLabel">0 ítems</span>
+                        </div>
+
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID venta</th>
+                                        <th>Producto</th>
+                                        <th>Cant.</th>
+                                        <th>Precio</th>
+                                        <th>Total</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="receiptDetailTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card table-card" style="margin-top: 22px;">
+                    <div class="card-title">
+                        <h3>Documentos generados</h3>
+                        <span id="receiptRecordsCountLabel">0 documentos</span>
+                    </div>
+
+                    <div class="history-filter-bar" style="margin-bottom:12px;">
+                        <div class="filter-group">
+                            <label for="receiptRecordsDateFrom">Desde</label>
+                            <input id="receiptRecordsDateFrom" class="search-input" type="date">
+                        </div>
+                        <div class="filter-group">
+                            <label for="receiptRecordsDateTo">Hasta</label>
+                            <input id="receiptRecordsDateTo" class="search-input" type="date">
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="receiptRecordsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="screen" id="view-estadisticas" data-view-panel="estadisticas" hidden>
+                <div class="section-head">
+                    <div>
+                        <p class="eyebrow">Estadísticas</p>
+                        <h2>Panel de ventas</h2>
+                    </div>
+                    <p>Consulta indicadores por rango de fechas con resumen ejecutivo, insights automáticos y gráfico de barras diario.</p>
+                </div>
+
+                <div class="card table-card">
+                    <div class="stats-filter-bar" aria-label="Filtros de estadísticas">
+                        <div class="row-actions">
+                            <button class="action-button stats-range-button" type="button" data-stats-range="today">Hoy</button>
+                            <button class="action-button stats-range-button" type="button" data-stats-range="yesterday">Ayer</button>
+                            <button class="action-button stats-range-button" type="button" data-stats-range="last7">Últimos 7 días</button>
+                            <button class="action-button stats-range-button" type="button" data-stats-range="last30">Últimos 30 días</button>
+                        </div>
+                        <div class="row-actions">
+                            <input id="statsDateFrom" class="search-input" type="date" aria-label="Fecha inicio">
+                            <input id="statsDateTo" class="search-input" type="date" aria-label="Fecha fin">
+                            <button class="action-button" id="statsApplyRangeButton" type="button">Aplicar rango</button>
+                        </div>
+                    </div>
+
+                    <p class="product-meta" id="statsRangeLabel">Rango activo: hoy</p>
+
+                    <div class="stats-kpi-grid" aria-live="polite">
+                        <article class="sale-summary"><span>Ventas</span><strong id="statsTotalSales">0</strong><p>Registros en rango</p></article>
+                        <article class="sale-summary"><span>Total vendido</span><strong id="statsTotalRevenue">S/ 0.00</strong><p>Importe acumulado</p></article>
+                        <article class="sale-summary"><span>Ticket promedio</span><strong id="statsAvgTicket">S/ 0.00</strong><p>Total / ventas</p></article>
+                        <article class="sale-summary"><span>Mejor hora</span><strong id="statsBestHour">-</strong><p>Franja con mayor monto</p></article>
+                        <article class="sale-summary"><span>Mejor día</span><strong id="statsBestDay">-</strong><p>Fecha con mayor venta</p></article>
+                        <article class="sale-summary"><span>Producto TOP</span><strong id="statsTopProduct">-</strong><p>Más vendido en el rango</p></article>
+                        <article class="sale-summary"><span>Unidades</span><strong id="statsTotalUnits">0</strong><p>Unidades despachadas</p></article>
+                        <article class="sale-summary"><span>Última venta</span><strong id="statsLastSale">-</strong><p>Registro más reciente</p></article>
+                    </div>
+
+                    <div class="stats-dashboard-grid">
+                        <article class="stats-chart-shell">
+                            <div class="card-title" style="margin-bottom: 12px;">
+                                <h3>Ventas por día</h3>
+                                <span>Barras comparativas</span>
+                            </div>
+                            <div class="stats-chart-wrap">
+                                <canvas id="statsBarChart" aria-label="Gráfico de barras de ventas por día"></canvas>
+                            </div>
+                        </article>
+
+                        <article class="stats-insights-shell">
+                            <div class="card-title" style="margin-bottom: 12px;">
+                                <h3>Insights automáticos</h3>
+                                <span>Resumen</span>
+                            </div>
+                            <ul class="stats-insights-list" id="statsInsightsList"></ul>
+                        </article>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Ventas</th>
+                                    <th>Unidades</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statsHourlyTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="screen" id="view-catalogo" data-view-panel="catalogo" hidden>
+                <div class="section-head">
+                    <div>
+                        <p class="eyebrow">Catálogo</p>
+                        <h2>Productos disponibles</h2>
+                    </div>
+                    <p>Explora imágenes de productos, agrégalos al carrito o registra compras rápidas.</p>
+                </div>
+
+                <div class="catalog-layout">
+                    <div class="card table-card">
+                        <div class="card-title">
+                            <h3>Galería de productos</h3>
+                            <span id="catalogCountLabel">0 productos</span>
+                        </div>
+
+                        <div class="table-toolbar">
+                            <input id="catalogSearch" class="search-input" type="search" placeholder="Buscar por nombre, ID o categoría">
+                        </div>
+
+                        <nav class="catalog-category-nav" id="catalogCategoryNav" aria-label="Filtrar productos por categoría"></nav>
+
+                        <div class="catalog-grid" id="catalogGrid"></div>
+                    </div>
+
+                    <aside class="card table-card cart-panel">
+                        <div class="card-title">
+                            <h3>Carrito</h3>
+                            <span id="cartCountLabel">0 items</span>
+                        </div>
+
+                        <div id="cartList" class="cart-list" data-cart-container></div>
+                        <p class="cart-total">Importe total a pagar: <strong id="cartTotalAmount">S/ 0.00</strong></p>
+                        <label for="checkoutOrderType" class="checkout-label">Modalidad de compra</label>
+                        <select id="checkoutOrderType" class="search-input">
+                            <option value="store">Compra en tienda</option>
+                            <option value="delivery">Generar pedido (delivery)</option>
+                        </select>
+                        <label for="checkoutPaymentMethod" class="checkout-label">Método de pago</label>
+                        <select id="checkoutPaymentMethod" class="search-input">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="Yape/Plin">Yape/Plin</option>
+                        </select>
+                        <label for="checkoutDeliveryAddress" class="checkout-label">Dirección de entrega</label>
+                        <input id="checkoutDeliveryAddress" class="search-input" type="text" placeholder="Ej. Av. Principal 123, Lima" data-store-placeholder="Ej. Caja 2 / Mostrador principal" data-delivery-placeholder="Ej. Av. Principal 123, Lima">
+                        <div id="checkoutLocationField">
+                            <label for="checkoutLocationLink" class="checkout-label">Ubicación (Google Maps)</label>
+                            <input id="checkoutLocationLink" class="search-input" type="url" placeholder="https://maps.google.com/...">
+                            <div class="row-actions" style="margin-top: 8px;">
+                                <button class="action-button" type="button" id="checkoutUseMyLocationButton">Usar mi ubicación actual</button>
+                                <a class="action-button" id="checkoutOpenGoogleMapsButton" href="#" target="_blank" rel="noopener noreferrer">Abrir Google Maps</a>
+                            </div>
+                            <div id="checkoutLocationMap" class="checkout-location-map" aria-label="Mapa para elegir ubicación"></div>
+                            <iframe id="checkoutLocationPreviewFrame" class="store-map-frame checkout-location-preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de ubicación del cliente"></iframe>
+                            <p class="product-meta" style="margin-top: 8px;">Haz clic en el mapa para seleccionar tu ubicación.</p>
+                        </div>
+                        <div class="order-resume-box" id="orderResumeBox">
+                            <p><span>Subtotal:</span> <strong id="cartSubtotalAmount">S/ 0.00</strong></p>
+                            <p><span>Envío fijo:</span> <strong id="cartShippingAmount">S/ 10.00</strong></p>
+                            <p><span>Total final:</span> <strong id="cartFinalAmount">S/ 0.00</strong></p>
+                            <p><span>Pedido delivery:</span> <strong id="cartDeliveryHint">Desactivado</strong></p>
+                        </div>
+                        <div class="form-actions">
+                            <button class="secondary-action" type="button" id="prepareOrderButton">Realizar pedido</button>
+                            <button class="primary-action" type="button" id="proceedPaymentButton">Proceder al pago</button>
+                            <select id="cartReceiptType" class="search-input" style="min-width: 220px;">
+                                <option value="electronic">Boleta electrónica</option>
+                                <option value="payment">Boleta de compras</option>
+                                <option value="sale-ticket">Boleta ticket</option>
+                            </select>
+                            <button class="secondary-action" type="button" id="cartGenerateReceiptButton">Generar boleta del carrito</button>
+                            <button class="secondary-action" type="button" id="clearCartButton">Vaciar carrito</button>
+                        </div>
+
+                        <hr class="panel-divider">
+
+                        <div class="card-title">
+                            <h3>Mis compras</h3>
+                            <span id="purchaseCountLabel">0 compras</span>
+                        </div>
+                        <div id="purchaseList" class="cart-list"></div>
+                        <p class="cart-total">Total comprado: <strong id="purchaseTotalAmount">S/ 0.00</strong></p>
+                        <p class="form-feedback" id="catalogFeedback" role="status" aria-live="polite"></p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="screen" id="view-historial" data-view-panel="historial" hidden>
+                <div class="section-head">
+                    <div>
+                        <p class="eyebrow">Historial</p>
+                        <h2>Historial de ventas</h2>
+                    </div>
+                    <p>Sirve para revisar ventas por rango de fechas y, en caso de error, eliminar una venta visible.</p>
+                </div>
+
+                <div class="card table-card">
+                    <div class="card-title">
+                        <h3>Registro completo</h3>
+                        <span id="historyCountLabel">0 ventas</span>
+                    </div>
+
+                    <div class="history-filter-bar" aria-label="Filtros de historial">
+                        <div class="filter-group">
+                            <label for="historyDateFrom">Desde</label>
+                            <input id="historyDateFrom" class="search-input" type="date" aria-label="Fecha inicio">
+                        </div>
+                        <div class="filter-group">
+                            <label for="historyDateTo">Hasta</label>
+                            <input id="historyDateTo" class="search-input" type="date" aria-label="Fecha fin">
+                        </div>
+                        <div class="row-actions">
+                            <button class="action-button" type="button" id="historyApplyRangeButton">Actualizar</button>
+                            <button class="action-button" type="button" id="historyExportExcel">Descargar Excel</button>
+                            <button class="action-button" type="button" id="historyExportCsv">Descargar CSV</button>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Hora</th>
+                                    <th>Detalle</th>
+                                    <th>Pago</th>
+                                    <th>Total</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="voucher-modal" id="voucherModal" hidden>
+        <div class="voucher-backdrop" data-close-voucher></div>
+        <article class="voucher-sheet" role="dialog" aria-modal="true" aria-labelledby="voucherTitle">
+            <header class="voucher-head">
+                <h3 id="voucherTitle">Voucher de compra</h3>
+                <button class="action-button" type="button" id="voucherCloseButton">Cerrar</button>
+            </header>
+            <div id="voucherBody"></div>
+            <div class="voucher-actions">
+                <button class="primary-action" type="button" id="voucherDownloadPdfButton">Descargar PDF</button>
+                <button class="secondary-action" type="button" id="voucherWhatsAppButton">Confirmar por WhatsApp</button>
+            </div>
+        </article>
+    </div>
+
+    <div class="voucher-modal" id="confirmationModal" hidden>
+        <div class="voucher-backdrop" data-close-confirmation></div>
+        <article class="voucher-sheet" role="dialog" aria-modal="true" aria-labelledby="confirmationTitle">
+            <header class="voucher-head">
+                <h3 id="confirmationTitle">Confirmar acción</h3>
+            </header>
+            <p id="confirmationMessage" style="margin: 16px 0; color: var(--muted); line-height: 1.6;"></p>
+            <div class="voucher-actions">
+                <button class="secondary-action" type="button" id="confirmationCancelButton">Cancelar</button>
+                <button class="primary-action" type="button" id="confirmationOkButton">Confirmar</button>
+            </div>
+        </article>
+    </div>
+
+    <footer class="client-footer" aria-label="Información para clientes">
+        <div class="client-footer-main">
+            <section>
+                <h4>NovaGest Tienda</h4>
+                <p>Atención rápida para pedidos y entregas en tu zona.</p>
+                <p class="client-footer-muted">Compra fácil, pago seguro y confirmación por WhatsApp.</p>
+            </section>
+            <section>
+                <h4>Enlaces rápidos</h4>
+                <ul>
+                    <li>Inicio</li>
+                    <li>Catálogo</li>
+                    <li>Información</li>
+                    <li>Historial</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Atención al cliente</h4>
+                <ul>
+                    <li>Preguntas frecuentes</li>
+                    <li>Política de entrega</li>
+                    <li>Términos y condiciones</li>
+                    <li>Política de privacidad</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Contáctanos</h4>
+                <ul>
+                    <li>Pedidos: (01) 234-5678</li>
+                    <li>Email: info@novagest.com</li>
+                    <li>Lima, Perú</li>
+                </ul>
+            </section>
+        </div>
+        <div class="client-footer-bottom">
+            <p>© 2026 NovaGest. Todos los derechos reservados.</p>
+            <p>Hecho con dedicación en Lima, Perú</p>
+            <p>Medios de pago: Visa | Mastercard</p>
+        </div>
+    </footer>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/panel-core.js"></script>
+    <script src="js/panel-renderers.js"></script>
+    <script src="js/panel-actions.js"></script>
+    <script src="js/panel-history.js"></script>
+    <script src="js/panel-events.js"></script>
+</body>
+</html>

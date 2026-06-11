@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Minimarket Rosita</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body class="auth-page">
+    <button class="theme-toggle" type="button" id="themeToggleButton" title="Cambiar tema">☀️</button>
+    
+    <main class="login-page">
+        <section class="login-card" aria-label="Formulario de inicio de sesión">
+            <div class="brand" aria-label="Marca del sistema">
+                <div class="brand-mark" aria-hidden="true">
+                    <img src="logo.webp" alt="Logo de Minimarket Rosita" class="brand-logo">
+                </div>
+                <div class="brand-text">
+                    <strong>Minimarket Rosita</strong>
+                    <span>Sistema de bodega</span>
+                </div>
+            </div>
+
+            <div class="login-header">
+                <p class="login-eyebrow">Panel administrativo</p>
+                <h2>Iniciar Sesión</h2>
+                <p class="login-copy">Accede para gestionar ventas, inventario y movimientos de caja del minimarket.</p>
+            </div>
+
+            <form class="login-form">
+                <label for="loginEmail">Correo</label>
+                <input id="loginEmail" name="loginEmail" type="email" placeholder="correo@dominio.com" required>
+
+                <label for="loginPassword">Contraseña</label>
+                <input id="loginPassword" name="loginPassword" type="password" placeholder="Tu contraseña" required>
+
+                <p class="login-copy">Administrador: Ingresa tu cuenta de administrador</p>
+                <p class="login-copy">Clientes: usa tu propio correo y contraseña para registrarte o ingresar.</p>
+                <button type="submit">Iniciar Sesión</button>
+                <button type="button" id="registerClientButton" class="secondary-action">Crear cuenta de cliente</button>
+                <p class="login-status" id="loginStatus" role="alert" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
